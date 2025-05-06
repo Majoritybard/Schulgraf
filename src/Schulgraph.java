@@ -3,6 +3,8 @@ import utils.*;
 
 public class Schulgraph {
     Graph schulgraph = new Graph();
+    List<Vertex> Ergebnisliste = new List<>();
+    Queue<Vertex> warteschlange = new Queue<>();
     public static void main(String[] args){
     new Schulgraph();
 
@@ -91,33 +93,44 @@ public class Schulgraph {
         schulgraph.addEdge(new Edge(Cafeteria,Aula,7));
         schulgraph.addEdge(new Edge(Cafeteria,Kunstraum,90));
         Breitensuche();
+
     }
 
     public List Breitensuche(){
-        List<Vertex> Ergebnisliste = new List<>();
-        Queue<Vertex> warteschlange = new Queue<>();
+
         Ergebnisliste.toFirst();
         warteschlange.enqueue(schulgraph.getVertex("Inforaum"));
         while (!warteschlange.isEmpty()){
             Vertex AktuellerKnoten= warteschlange.front();
             warteschlange.dequeue();
             Ergebnisliste.append(AktuellerKnoten);
+            System.out.println(AktuellerKnoten.getID());
             List<Vertex> neighbours= schulgraph.getNeighbours(AktuellerKnoten);
             neighbours.toFirst();
             while (neighbours.hasAccess()){
                 if (!neighbours.getContent().isMarked()){
-                    warteschlange.enqueue(neighbours.getContent());
                     neighbours.getContent().setMark(true);
+                    warteschlange.enqueue(neighbours.getContent());
                 }
                 neighbours.next();
             }
          Ergebnisliste.toFirst();
         }
-        for(Ergebnisliste.next()!=null){
-            System.out.println(Ergebnisliste.getContent());
-            Ergebnisliste.next();
-        }
+
         return Ergebnisliste;
+        }
+        public void List(){
+        Breitensuche();
+        Ergebnisliste.toFirst();
+        while(Ergebnisliste.hasAccess()){
+            System.out.println(Ergebnisliste.getContent());
+            List<Vertex> neighbours= schulgraph.getNeighbours(Ergebnisliste.getContent());
+            while (neighbours.hasAccess()){
+                System.out.println(neighbours.getContent());
+                neighbours.next();
+            }
+        }
+
 
         }
 
