@@ -93,6 +93,7 @@ public class Schulgraph {
         schulgraph.addEdge(new Edge(Cafeteria,Aula,7));
         schulgraph.addEdge(new Edge(Cafeteria,Kunstraum,90));
         Breitensuche();
+        List();
 
     }
 
@@ -120,15 +121,24 @@ public class Schulgraph {
         return Ergebnisliste;
         }
         public void List(){
-        Breitensuche();
+        Ergebnisliste=Breitensuche();
         Ergebnisliste.toFirst();
         while(Ergebnisliste.hasAccess()){
-            System.out.println(Ergebnisliste.getContent());
-            List<Vertex> neighbours= schulgraph.getNeighbours(Ergebnisliste.getContent());
+            System.out.print(Ergebnisliste.getContent().getID());
+            List<Vertex> neighbours= new List<>();
+            neighbours= schulgraph.getNeighbours(Ergebnisliste.getContent());
+            neighbours.toFirst();
             while (neighbours.hasAccess()){
-                System.out.println(neighbours.getContent());
+                System.out.print("  ");
+                System.out.print(schulgraph.getEdge(Ergebnisliste.getContent(), neighbours.getContent()).getWeight());
+                System.out.print(neighbours.getContent().getID());
                 neighbours.next();
+                System.out.print(" ");
+
             }
+            neighbours.remove();
+            Ergebnisliste.next();
+            System.out.println("");
         }
 
 
