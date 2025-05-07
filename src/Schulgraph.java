@@ -5,6 +5,8 @@ public class Schulgraph {
     Graph schulgraph = new Graph();
     List<Vertex> Ergebnisliste = new List<>();
     Queue<Vertex> warteschlange = new Queue<>();
+    List<Vertex> neighbours= new List<>();
+
     public static void main(String[] args){
     new Schulgraph();
 
@@ -93,7 +95,7 @@ public class Schulgraph {
         schulgraph.addEdge(new Edge(Cafeteria,Aula,7));
         schulgraph.addEdge(new Edge(Cafeteria,Kunstraum,90));
         Breitensuche();
-        List();
+
 
     }
 
@@ -125,7 +127,6 @@ public class Schulgraph {
         Ergebnisliste.toFirst();
         while(Ergebnisliste.hasAccess()){
             System.out.print(Ergebnisliste.getContent().getID());
-            List<Vertex> neighbours= new List<>();
             neighbours= schulgraph.getNeighbours(Ergebnisliste.getContent());
             neighbours.toFirst();
             while (neighbours.hasAccess()){
@@ -142,7 +143,19 @@ public class Schulgraph {
         }
 
 
+    }
+    public  void TiefensucheV(){
+    Ergebnisliste.toFirst();
+    Tiefensuche(schulgraph.getVertex("Inforaum"));
+
         }
+    }
+    }
+    public List Tiefensuche(Vertex pStart){
+        if (!pStart.isMarked()){
+
+        }
+    }
 
     }
 
