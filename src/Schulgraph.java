@@ -6,6 +6,7 @@ public class Schulgraph {
     List<Vertex> Ergebnisliste = new List<>();
     Queue<Vertex> warteschlange = new Queue<>();
     List<Vertex> neighbours = new List<>();
+    Stack<Vertex> Stack= new Stack<>();
 
     public static void main(String[] args) {
         new Schulgraph();
@@ -28,6 +29,7 @@ public class Schulgraph {
         schulgraph.addEdge(new Edge(Aula, Inforaum, 95));
         schulgraph.addEdge(new Edge(Aula, WC, 15));
         Vertex Kunstraum = new Vertex("Kunstraum");
+        schulgraph.addVertex(Kunstraum);
         schulgraph.addEdge(new Edge(Kunstraum, Inforaum, 64));
         schulgraph.addEdge(new Edge(Kunstraum, Aula, 71));
         Vertex Musikraum = new Vertex("Musikraum");
@@ -40,6 +42,7 @@ public class Schulgraph {
         schulgraph.addEdge(new Edge(Inforaum2, Musikraum, 55));
         schulgraph.addEdge(new Edge(Inforaum2, Kunstraum, 50));
         Vertex Schulzoo = new Vertex("Schulzoo");
+        schulgraph.addVertex(Schulzoo);
         schulgraph.addEdge(new Edge(Schulzoo, Inforaum, 5));
         Vertex Chemieraum = new Vertex("Chemieraum");
         schulgraph.addVertex(Chemieraum);
@@ -96,15 +99,16 @@ public class Schulgraph {
         schulgraph.addEdge(new Edge(Cafeteria, WC, 22));
         schulgraph.addEdge(new Edge(Cafeteria, Aula, 7));
         schulgraph.addEdge(new Edge(Cafeteria, Kunstraum, 90));
-        Breitensuche();
+        Tiefensuche(Inforaum);
 
 
     }
 
-    public List Breitensuche() {
+    public List<Vertex> Breitensuche(Vertex pStart) {
 
         Ergebnisliste.toFirst();
-        warteschlange.enqueue(schulgraph.getVertex("Inforaum"));
+        warteschlange.enqueue(pStart);
+        pStart.setMark(true);
         while (!warteschlange.isEmpty()) {
             Vertex AktuellerKnoten = warteschlange.front();
             warteschlange.dequeue();
@@ -126,7 +130,7 @@ public class Schulgraph {
     }
 
     public void List() {
-        Ergebnisliste = Breitensuche();
+
         Ergebnisliste.toFirst();
         while (Ergebnisliste.hasAccess()) {
             System.out.print(Ergebnisliste.getContent().getID());
@@ -148,20 +152,28 @@ public class Schulgraph {
 
     }
 
-    public void TiefensucheV() {
-        Ergebnisliste.toFirst();
-        Tiefensuche(schulgraph.getVertex("Inforaum"));
-
-    }
-
-
-    public List Tiefensuche(Vertex pStart) {
-        if (!pStart.isMarked()) {
-            System.out.println(pStart);
-
+    public void Tiefensuche(Vertex pStart) {
+        schulgraph.setAllVertexMarks(false);
+    Stack.push(pStart);
+    pStart.setMark(true);
+    while(!Stack.isEmpty()){
+        Vertex Aktuellerknoten= Stack.top();
+        Stack.pop();
+        System.out.println(Aktuellerknoten.getID());
+        List<Vertex> neighbours = schulgraph.getNeighbours(Aktuellerknoten);
+        neighbours.toFirst();
+        while(neighbours.hasAccess()){
+            if (!neighbours.getContent().isMarked()){
+                neighbours.getContent().setMark(true);
+                Stack.push(neighbours.getContent());
+            }
+            neighbours.next();
         }
-        if (schulgraph.getNeighbours(!pStart.isMarked()))
     }
+
+    }
+
+
 
 
 }
